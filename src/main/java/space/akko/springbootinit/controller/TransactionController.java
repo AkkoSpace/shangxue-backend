@@ -2,18 +2,15 @@ package space.akko.springbootinit.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-import space.akko.springbootinit.annotation.AuthCheck;
 import space.akko.springbootinit.common.BaseResponse;
 import space.akko.springbootinit.common.DeleteRequest;
 import space.akko.springbootinit.common.ErrorCode;
 import space.akko.springbootinit.common.ResultUtils;
 import space.akko.springbootinit.constant.CommonConstant;
-import space.akko.springbootinit.constant.UserConstant;
 import space.akko.springbootinit.exception.BusinessException;
 import space.akko.springbootinit.exception.ThrowUtils;
 import space.akko.springbootinit.model.dto.transaction.TransactionAddRequest;
@@ -26,7 +23,6 @@ import space.akko.springbootinit.service.UserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * 交易接口
@@ -135,14 +131,17 @@ public class TransactionController {
         String sortField = transactionQueryRequest.getSortField();
         String sortOrder = transactionQueryRequest.getSortOrder();
         String description = transactionQuery.getDescription();
-        // description 需支持模糊搜索
+        String transactionId = transactionQuery.getTransactionId();
+        // description, transactionId 支持模糊搜索
         transactionQuery.setDescription(null);
+        transactionQuery.setTransactionId(null);
         // 限制爬虫
         if (size > 50) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         QueryWrapper<Transaction> queryWrapper = new QueryWrapper<>(transactionQuery);
         queryWrapper.like(StringUtils.isNotBlank(description), "description", description);
+        queryWrapper.like(StringUtils.isNotBlank(transactionId), "transactionId", transactionId);
         queryWrapper.orderBy(StringUtils.isNotBlank(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC), sortField);
         Page<Transaction> transactionPage = transactionService.page(new Page<>(current, size), queryWrapper);

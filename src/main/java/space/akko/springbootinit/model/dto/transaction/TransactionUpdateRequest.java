@@ -33,6 +33,11 @@ public class TransactionUpdateRequest implements Serializable {
     private BigDecimal amount;
 
     /**
+     * 交易状态：0-未付款，1-已付款，2-已取消，3-已退款
+     */
+    private Integer status;
+
+    /**
      * 描述
      */
     private String description;

@@ -11,7 +11,7 @@
     </parent>
     <groupId>space.akko</groupId>
     <artifactId>shangxue-backend</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>shangxue-backend</name>
     <properties>
         <java.version>1.8</java.version>
