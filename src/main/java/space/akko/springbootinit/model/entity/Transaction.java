@@ -2,6 +2,7 @@ package space.akko.springbootinit.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,6 +30,7 @@ public class Transaction implements Serializable {
     /**
      * 交易日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date transactionDate;
 
     /**
